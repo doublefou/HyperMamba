@@ -26,7 +26,7 @@ Run `tensorboard --logdir runs --port 6006` to view training progress
 Some of the codes in this repo are borrowed from:   
 * [ConvNeXt](https://github.com/facebookresearch/ConvNeXt)  
 * [HiFuse](https://github.com/huoxiangzuo/HiFuse)
-* [VMamba](https://github.com/huoxiangzuo/HiFuse)
+* [VMamba](https://github.com/MzeroMiko/VMamba)
 
 ## Citation
 
