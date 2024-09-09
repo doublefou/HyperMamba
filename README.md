@@ -1,12 +1,9 @@
 # HyperMamba
 ## Overview
-![image](https://github.com/lexsaints/powershell/blob/master/IMG/ps2.png)
-
-## HFF Block
-
+![image](https://github.com/doublefou/HyperMamba/blob/master/docs/overall%20architecture.png)
 
 ## Visual Inspection of HyperMamba
-
+![image](https://github.com/doublefou/HyperMamba/blob/master/docs/overall%20architecture.png)
 
 ## Run
 0. Requirements:
