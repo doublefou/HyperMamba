@@ -3,7 +3,7 @@
 ![image](https://github.com/doublefou/HyperMamba/blob/master/docs/overall%20architecture.png)
 
 ## Visual Inspection of HyperMamba
-![image](https://github.com/doublefou/HyperMamba/blob/master/docs/overall%20architecture.png)
+![image](https://github.com/doublefou/HyperMamba/blob/master/docs/Grad-CAM.png)
 
 ## Run
 0. Requirements:
@@ -23,11 +23,10 @@
 Run `tensorboard --logdir runs --port 6006` to view training progress
 
 ## Reference
-Some of the codes in this repo are borrowed from:  
-* [Swin Transformer](https://github.com/microsoft/Swin-Transformer)  
+Some of the codes in this repo are borrowed from:   
 * [ConvNeXt](https://github.com/facebookresearch/ConvNeXt)  
-* [WZMIAOMIAO](https://github.com/WZMIAOMIAO/deep-learning-for-image-processing)
 * [HiFuse](https://github.com/huoxiangzuo/HiFuse)
+* [VMamba](https://github.com/huoxiangzuo/HiFuse)
 
 ## Citation
 
