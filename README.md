@@ -27,12 +27,3 @@ Some of the codes in this repo are borrowed from:
 * [ConvNeXt](https://github.com/facebookresearch/ConvNeXt)  
 * [HiFuse](https://github.com/huoxiangzuo/HiFuse)
 * [VMamba](https://github.com/MzeroMiko/VMamba)
-
-## Citation
-
-If you find our paper/code is helpful, please consider citing:
-
-```bibtex
-
-```
-
