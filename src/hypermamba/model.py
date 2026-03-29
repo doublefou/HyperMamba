@@ -37,7 +37,7 @@ class main_model(nn.Module):
     def __init__(self, num_classes, patch_size=4, in_chans=3, embed_dim=96, depths=(2, 2, 2, 2),
                  num_heads=(3, 6, 12, 24), window_size=7, qkv_bias=True, drop_rate=0,
                  attn_drop_rate=0, drop_path_rate=0., norm_layer=nn.LayerNorm, patch_norm=True,
-                 use_checkpoint=False, HFF_dp=0.,
+                 use_checkpoint=False, GLE_dp=0.,
                  conv_depths=(2, 2, 2, 2), conv_dims=(96, 192, 384, 768), conv_drop_path_rate=0.,
                  conv_head_init_scale: float = 1., **kwargs):
         super().__init__()
