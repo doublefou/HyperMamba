@@ -124,7 +124,7 @@ class main_model(nn.Module):
         self.head = nn.Linear(self.num_features, num_classes) if num_classes > 0 else nn.Identity()
         self.apply(self._init_weights)
 
-        ###### GLE Block Setting #######
+        ###### Hierachical Feature Fusion Block Setting #######
 
         self.fu1 = GLE_block(ch_1=96, ch_2=96, r_2=16, ch_int=96, ch_out=96, drop_rate=GLE_dp)
         self.fu2 = GLE_block(ch_1=192, ch_2=192, r_2=16, ch_int=192, ch_out=192, drop_rate=GLE_dp)
@@ -227,6 +227,75 @@ class Local_block(nn.Module):
         x = x.permute(0, 3, 1, 2)  # [N, H, W, C] -> [N, C, H, W]
         x = shortcut + self.drop_path(x)
         return x
+
+# Hierachical Feature Fusion Block
+class GLE_block(nn.Module):
+    def __init__(self, ch_1, ch_2, r_2, ch_int, ch_out, drop_rate=0.):
+        super(GLE_block, self).__init__()
+        self.maxpool=nn.AdaptiveMaxPool2d(1)
+        self.avgpool=nn.AdaptiveAvgPool2d(1)
+        self.se=nn.Sequential(
+            nn.Conv2d(ch_2, ch_2 // r_2, 1,bias=False),
+            nn.ReLU(),
+            nn.Conv2d(ch_2 // r_2, ch_2, 1,bias=False)
+        )
+        self.sigmoid = nn.Sigmoid()
+        self.spatial = Conv(2, 1, 7, bn=True, relu=False, bias=False)
+        self.W_l = Conv(ch_1, ch_int, 1, bn=True, relu=False)
+        self.W_g = Conv(ch_2, ch_int, 1, bn=True, relu=False)
+        self.Avg = nn.AvgPool2d(2, stride=2)
+        self.Updim = Conv(ch_int//2, ch_int, 1, bn=True, relu=True)
+        self.norm1 = LayerNorm(ch_int * 3, eps=1e-6, data_format="channels_first")
+        self.norm2 = LayerNorm(ch_int * 2, eps=1e-6, data_format="channels_first")
+        self.norm3 = LayerNorm(ch_1 + ch_2 + ch_int, eps=1e-6, data_format="channels_first")
+        self.W3 = Conv(ch_int * 3, ch_int, 1, bn=True, relu=False)
+        self.W = Conv(ch_int * 2, ch_int, 1, bn=True, relu=False)
+
+        self.gelu = nn.GELU()
+
+        self.residual = IRMLP(ch_1 + ch_2 + ch_int, ch_out)
+        self.drop_path = DropPath(drop_rate) if drop_rate > 0. else nn.Identity()
+
+    def forward(self, l, g, f):
+
+        W_local = self.W_l(l)   # local feature from Local Feature Block
+        W_global = self.W_g(g)   # global feature from Global Feature Block
+        if f is not None:
+            W_f = self.Updim(f)
+            W_f = self.Avg(W_f)
+            shortcut = W_f
+            X_f = torch.cat([W_f, W_local, W_global], 1)
+            X_f = self.norm1(X_f)
+            X_f = self.W3(X_f)
+            X_f = self.gelu(X_f)
+        else:
+            shortcut = 0
+            X_f = torch.cat([W_local, W_global], 1)
+            X_f = self.norm2(X_f)
+            X_f = self.W(X_f)
+            X_f = self.gelu(X_f)
+
+        # spatial attention for ConvNeXt branch
+        l_jump = l
+        max_result, _ = torch.max(l, dim=1, keepdim=True)
+        avg_result = torch.mean(l, dim=1, keepdim=True)
+        result = torch.cat([max_result, avg_result], 1)
+        l = self.spatial(result)
+        l = self.sigmoid(l) * l_jump
+
+        # channel attetion for transformer branch
+        g_jump = g
+        max_result=self.maxpool(g)
+        avg_result=self.avgpool(g)
+        max_out=self.se(max_result)
+        avg_out=self.se(avg_result)
+        g = self.sigmoid(max_out+avg_out) * g_jump
+
+        fuse = torch.cat([g, l, X_f], 1)
+        fuse = self.norm3(fuse)
+        fuse = self.residual(fuse)
+        fuse = shortcut + self.drop_path(fuse)
+        return fuse
 
 class Conv(nn.Module):
     def __init__(self, inp_dim, out_dim, kernel_size=3, stride=1, bn=False, relu=True, bias=True, group=1):
