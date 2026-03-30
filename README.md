@@ -1,28 +1,33 @@
 # HyperMamba
 
-概述
-本仓库实现了一个融合局部卷积分支与全局序列分支并通过层次化特征融合进行结合的骨架代码。目标是提供可复现的代码、示例以及使用说明，便于读者复现实验。
+## Overview
+This repository provides a skeleton implementation of a model that integrates a local convolution branch and a global sequence branch, combined through hierarchical feature fusion. Its goal is to offer reproducible code, examples, and usage instructions to help readers reproduce the experiments.
 
-主要内容
-- src/hypermamba/model.py: 主模型实现（Local、Global、GLE）
-- examples/: 训练与推理示例
-- docs/: 使用说明、复现实验步骤、引用建议
-- LICENSE: 开源许可（MIT）
+## Main Contents
+- `src/hypermamba/model.py`: Main model implementation (`Local`, `Global`, `GLE`)
+- `examples/`: Training and inference examples
+- `docs/`: Usage instructions, experiment reproduction steps, and citation recommendations
+- `LICENSE`: Open-source license (MIT)
 
-快速开始（本地）
-1. 克隆仓库：
+## Quick Start (Local)
+1. Clone the repository:
+   ```bash
    git clone https://github.com/<doublefou>/HyperMamba.git
-2. 创建 python 虚拟环境并安装依赖：
+   ```
+2. Create a Python virtual environment and install dependencies:
+   ```bash
    conda create -n hypermamba python=3.10 -y
    conda activate hypermamba
    pip install -r requirements.txt
-3. 运行示例（训练/推理）：
+   ```
+3. Run the examples (training/inference):
+   ```bash
    python examples/train_example.py
    python examples/infer_example.py
+   ```
 
-复现实验建议
-请参阅 docs/USAGE.md，包含依赖版本、训练超参、数据准备、如何引用本仓库与 Zenodo DOI。
+## Recommendations for Reproducing Experiments
+Please refer to `docs/USAGE.md`, which includes dependency versions, training hyperparameters, data preparation, and how to cite this repository and its Zenodo DOI.
 
-License
-MIT License（见 LICENSE 文件）
-EOF
+## License
+MIT License (see the `LICENSE` file)
