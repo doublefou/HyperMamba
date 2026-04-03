@@ -1,4 +1,4 @@
-# HyperMamba
+# HyperMamba: A Dual-Branch Feature-Aware Framework with Global-Local Enhancement for Medical Image Classification
 
 ## Overview
 This repository provides a skeleton implementation of a model that integrates a local convolution branch and a global sequence branch, combined through hierarchical feature fusion. Its goal is to offer reproducible code, examples, and usage instructions to help readers reproduce the experiments.
@@ -11,6 +11,13 @@ Medical image classification is a cornerstone of computer-aided diagnosis, taske
 - `examples/`: Training and inference examples
 - `docs/`: Usage instructions, experiment reproduction steps, and citation recommendations
 - `LICENSE`: Open-source license (MIT)
+
+## Datasets
+The datasets used in this project can be downloaded from the following links:
+- **ISIC2018**: https://www.kaggle.com/datasets/mehradaria/isic2018-data
+- **Kvasir**: https://www.kaggle.com/datasets/yasserhessein/the-kvasir-dataset/data
+- **COVID19-CT**: https://www.kaggle.com/datasets/luisblanche/covidct?select=CT_COVID
+Please download the datasets manually and organize them according to the instructions in `docs/USAGE.md`.
 
 ## Quick Start (Local)
 1. Clone the repository:
