@@ -17,6 +17,7 @@ The datasets used in this project can be downloaded from the following links:
 - **ISIC2018**: https://www.kaggle.com/datasets/mehradaria/isic2018-data
 - **Kvasir**: https://www.kaggle.com/datasets/yasserhessein/the-kvasir-dataset/data
 - **COVID19-CT**: https://www.kaggle.com/datasets/luisblanche/covidct?select=CT_COVID
+
 Please download the datasets manually and organize them according to the instructions in `docs/USAGE.md`.
 
 ## Quick Start (Local)
